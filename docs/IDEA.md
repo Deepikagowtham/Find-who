@@ -1,0 +1,2 @@
+### **Idea**  
+ZenGlow Spa is a full-stack web application designed to provide a seamless online booking experience for spa services. Users can explore various treatments, view pricing, and receive personalized recommendations based on their preferences. The platform ensures a user-friendly experience, allowing customers to book appointments effortlessly while spa owners manage services efficiently.
