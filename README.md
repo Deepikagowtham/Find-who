@@ -1,6 +1,6 @@
 # ZenGlow Spa - Online Booking System
 
-## 🌿 About ZenGlow Spa
+## 🌿 About ZenGlow Spa :
 ZenGlow Spa is a **full-stack web application** that allows users to explore spa services, get personalized service recommendations, and book appointments seamlessly.
 
 ## ✨ Features
