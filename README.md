@@ -9,7 +9,7 @@ ZenGlow Spa is a **full-stack web application** that allows users to explore spa
 - **Personalized Recommendations** – Get spa service suggestions based on user preferences.
 - **User-Friendly UI** – A smooth and intuitive experience for easy navigation.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack :
 - **Frontend:** React.js, Tailwind CSS
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
