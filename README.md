@@ -3,7 +3,7 @@
 ## 🌿 About ZenGlow Spa :
 ZenGlow Spa is a **full-stack web application** that allows users to explore spa services, get personalized service recommendations, and book appointments seamlessly.
 
-## ✨ Features
+## ✨ Features :
 - **Explore Spa Services** – View all available treatments, pricing, and benefits.
 - **Book an Appointment** – Select a service, choose a date/time, and confirm your booking.
 - **Personalized Recommendations** – Get spa service suggestions based on user preferences.
