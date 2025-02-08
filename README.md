@@ -73,7 +73,7 @@ ZenGlow Spa is a **full-stack web application** that allows users to explore spa
    npm start
    ```
 
-## 🎯 Future Enhancements ::
+## 🎯 Future Enhancements 
 - **Email confirmation for bookings**
 - **Admin dashboard for managing services**
 - **Google Maps integration for location view**
