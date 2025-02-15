@@ -10,16 +10,16 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ MongoDB Connection
+// ✅ Connect to MongoDB Atlas
 mongoose
-  .connect("mongodb://localhost:27017/SPA", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 mongoose.connection.on("error", (err) => console.error("❌ MongoDB error:", err));
 mongoose.connection.on("connected", () => console.log("✅ MongoDB connected successfully."));
 
-// ✅ Schema & Model for Bookings
+// ✅ Booking Schema & Model
 const bookingSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -31,16 +31,16 @@ const bookingSchema = new mongoose.Schema({
 
 const Booking = mongoose.model("booking_details", bookingSchema);
 
-// ✅ Schema & Model for Contact Messages
+// ✅ Contact Schema & Model
 const contactSchema = new mongoose.Schema({
   name: String,
   email: String,
   message: String,
 });
 
-const Message = mongoose.model("user_messages", contactSchema); // ⬅️ Fixed collection name
+const Message = mongoose.model("user_messages", contactSchema);
 
-// ✅ Route to handle booking submission
+// ✅ Route: Handle Booking Submission
 app.post("/api/bookings", async (req, res) => {
   try {
     const { name, email, phone, service, date, time } = req.body;
@@ -52,26 +52,21 @@ app.post("/api/bookings", async (req, res) => {
     const selectedDate = new Date(`${date} ${time}`);
     const currentDate = new Date();
 
-    // Check if selected date/time is before the current date/time
     if (selectedDate < currentDate) {
       return res.status(400).json({ message: "Invalid date/time! Please select a future time." });
     }
 
-    // Check if the service is already booked at the same date and time
     const existingBooking = await Booking.findOne({ service, date, time });
 
     if (existingBooking) {
       return res.status(400).json({ message: "This service is already booked for the selected time. Please choose another slot." });
     }
 
-    // Save to MongoDB
     const newBooking = new Booking({ name, email, phone, service, date, time });
     await newBooking.save();
-    console.log("✅ Booking saved to MongoDB:", newBooking);
+    console.log("✅ Booking saved:", newBooking);
 
-    // Send confirmation email (if applicable)
     sendBookingConfirmation(email, name, service, date, time);
-
     res.status(201).json({ message: "Booking successful!" });
   } catch (error) {
     console.error("❌ Booking error:", error);
@@ -79,19 +74,18 @@ app.post("/api/bookings", async (req, res) => {
   }
 });
 
-
 // ✅ Nodemailer Setup
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "deepigap.22cse@kongu.edu",
-    pass: "rlmj jgdb vddd zdml", // ⬅️ Use Google App Password instead
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
 function sendBookingConfirmation(email, name, service, date, time) {
   const mailOptions = {
-    from: "deepikagowtham24@gmail.com",
+    from: process.env.EMAIL_USER,
     to: email,
     subject: "Booking Confirmation",
     text: `Hello ${name},\n\nYour booking for ${service} on ${date} at ${time} has been confirmed.\n\nThank you for choosing our spa!\n\nBest regards,\nSPA Team`,
@@ -106,7 +100,7 @@ function sendBookingConfirmation(email, name, service, date, time) {
   });
 }
 
-// ✅ API Route to Handle Contact Form
+// ✅ Route: Handle Contact Form Submission
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -115,15 +109,13 @@ app.post("/api/contact", async (req, res) => {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
-    // Save the message in MongoDB
     const newMessage = new Message({ name, email, message });
     await newMessage.save();
-    console.log("✅ Message saved to MongoDB:", newMessage);
+    console.log("✅ Message saved:", newMessage);
 
-    // Send Email
     const mailOptions = {
       from: email,
-      to: "deepigap.22cse@kongu.edu",
+      to: process.env.EMAIL_USER,
       subject: "New Contact Form Message",
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
