@@ -1,0 +1,86 @@
+/* Footer Section */
+.footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 3rem 0;
+    text-align: center;
+    position: relative;
+    width: 100vw;  /* Ensures full viewport width */
+    left: 0;
+}
+
+.footer-links a {
+    color: rgb(255, 255, 255); /* Pink color */
+    text-decoration: none; /* Remove underline */
+    font-size: 1.3rem; /* Adjust size if needed */
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-links a:hover {
+    color: rgb(241, 6, 158); /* Light pink on hover */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%; /* Ensures full width */
+    max-width: 100%; /* Override any max-width */
+    margin: auto;
+    padding: 0 2rem; /* Adds spacing */
+}
+.footer-column {
+    flex: 1;
+    padding: 1rem;
+    min-width: 250px;
+}
+
+.footer-column h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: rgb(241, 6, 158);
+}
+
+.footer-column p, .footer-column ul {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-column ul li a {
+    text-decoration: none;
+    color: #eee;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: rgb(241, 6, 158);
+}
+
+/* Social Media Icons */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: #eee;
+    font-size: 2.5rem;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: rgb(241, 6, 158);
+}
+
+/* Bottom Footer */
+.footer-bottom {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+}

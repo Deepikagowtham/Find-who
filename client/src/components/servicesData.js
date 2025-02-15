@@ -1,0 +1,35 @@
+const services = [
+  { name: "Swedish Massage", description: "Relaxing full-body massage", image: "/images/swedish1.jpg" },
+  { name: "Deep Tissue Massage", description: "Relieves deep muscle tension", image: "/images/deep1.jpg" },
+  { name: "Hot Stone Massage", description: "Uses heated stones for relaxation", image: "/images/hotstone.jpg" },
+  { name: "Aromatherapy Massage", description: "Massage with essential oils", image: "/images/aroma.jpg" },
+  { name: "Thai Massage", description: "Stretching and deep massage", image: "/images/thai.jpg" },
+  { name: "Prenatal Massage", description: "Massage for expecting mothers", image: "/images/prenatal.jpg" },
+  { name: "Deep Cleansing Facial", description: "Removes impurities and oil", image: "/images/cleansing.jpg" },
+  { name: "Hydrating Facial", description: "Deep hydration for skin", image: "/images/hydrating.jpg" },
+  { name: "Anti-Aging Facial", description: "Reduces wrinkles and fine lines", image: "/images/antiaging.jpg" },
+  { name: "Acne Treatment Facial", description: "Targets acne and blemishes", image: "/images/acne.jpg" },
+  { name: "Brightening Facial", description: "Enhances skin glow", image: "/images/brightening.jpg" },
+  { name: "Body Scrubs", description: "Exfoliation for soft skin", image: "/images/bodyscrub.jpg" },
+  { name: "Body Wraps", description: "Detox and hydration treatment", image: "/images/bodywrap.jpg" },
+  { name: "Mud Therapy", description: "Detoxifying mud application", image: "/images/mudtherapy.jpg" },
+  { name: "Herbal Body Wraps", description: "Natural body wrap treatment", image: "/images/herbalwrap.jpg" },
+  { name: "Waxing", description: "Hair removal for smooth skin", image: "/images/waxing.jpg" },
+  { name: "Threading", description: "Eyebrow and facial hair threading", image: "/images/threading.jpg" },
+  { name: "Manicure & Pedicure", description: "Hand and foot care", image: "/images/manicure.jpg" },
+  { name: "Eyelash Extensions", description: "Enhance your eyelashes", image: "/images/eyelash.jpg" },
+  { name: "Makeup Services", description: "Professional makeup application", image: "/images/makeup.jpg" },
+  { name: "Hair Spa", description: "Deep conditioning for hair", image: "/images/hairspa.jpg" },
+  { name: "Scalp Massage", description: "Relieves scalp tension", image: "/images/scalpmassage.jpg" },
+  { name: "Dandruff Treatment", description: "Removes dandruff and soothes scalp", image: "/images/dandruff.jpg" },
+  { name: "Sauna Therapy", description: "Steam therapy for relaxation", image: "/images/sauna.jpg" },
+  { name: "Steam Room", description: "Opens pores and detoxifies", image: "/images/steamroom.jpg" },
+  { name: "Jacuzzi & Hot Tubs", description: "Relaxing water therapy", image: "/images/jacuzzi.jpg" },
+  { name: "Yoga & Meditation", description: "Mind and body wellness", image: "/images/yoga.jpg" },
+  { name: "Guided Breathing Exercises", description: "Helps with relaxation", image: "/images/breathing.jpg" },
+  { name: "Sound Therapy", description: "Healing with sound vibrations", image: "/images/soundtherapy.jpg" },
+  { name: "Herbal Tea Therapy", description: "Natural herbal tea benefits", image: "/images/herbaltea.jpg" }
+];
+
+export default services;
+
