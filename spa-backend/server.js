@@ -10,16 +10,27 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// ✅ Load environment variables
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI;
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
+
+if (!MONGO_URI) {
+  console.error("❌ MongoDB URI is missing. Check your .env file.");
+  process.exit(1);
+}
+
 // ✅ Connect to MongoDB Atlas
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 mongoose.connection.on("error", (err) => console.error("❌ MongoDB error:", err));
 mongoose.connection.on("connected", () => console.log("✅ MongoDB connected successfully."));
 
-// ✅ Booking Schema & Model
+// ✅ Schema & Model for Bookings
 const bookingSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -31,7 +42,7 @@ const bookingSchema = new mongoose.Schema({
 
 const Booking = mongoose.model("booking_details", bookingSchema);
 
-// ✅ Contact Schema & Model
+// ✅ Schema & Model for Contact Messages
 const contactSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -40,7 +51,7 @@ const contactSchema = new mongoose.Schema({
 
 const Message = mongoose.model("user_messages", contactSchema);
 
-// ✅ Route: Handle Booking Submission
+// ✅ Route to handle booking submission
 app.post("/api/bookings", async (req, res) => {
   try {
     const { name, email, phone, service, date, time } = req.body;
@@ -64,9 +75,10 @@ app.post("/api/bookings", async (req, res) => {
 
     const newBooking = new Booking({ name, email, phone, service, date, time });
     await newBooking.save();
-    console.log("✅ Booking saved:", newBooking);
+    console.log("✅ Booking saved to MongoDB:", newBooking);
 
     sendBookingConfirmation(email, name, service, date, time);
+
     res.status(201).json({ message: "Booking successful!" });
   } catch (error) {
     console.error("❌ Booking error:", error);
@@ -78,14 +90,14 @@ app.post("/api/bookings", async (req, res) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: EMAIL_USER,
+    pass: EMAIL_PASS, // Use App Password
   },
 });
 
 function sendBookingConfirmation(email, name, service, date, time) {
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: EMAIL_USER,
     to: email,
     subject: "Booking Confirmation",
     text: `Hello ${name},\n\nYour booking for ${service} on ${date} at ${time} has been confirmed.\n\nThank you for choosing our spa!\n\nBest regards,\nSPA Team`,
@@ -100,7 +112,7 @@ function sendBookingConfirmation(email, name, service, date, time) {
   });
 }
 
-// ✅ Route: Handle Contact Form Submission
+// ✅ API Route to Handle Contact Form
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -111,11 +123,11 @@ app.post("/api/contact", async (req, res) => {
 
     const newMessage = new Message({ name, email, message });
     await newMessage.save();
-    console.log("✅ Message saved:", newMessage);
+    console.log("✅ Message saved to MongoDB:", newMessage);
 
     const mailOptions = {
       from: email,
-      to: process.env.EMAIL_USER,
+      to: EMAIL_USER,
       subject: "New Contact Form Message",
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
@@ -130,5 +142,4 @@ app.post("/api/contact", async (req, res) => {
 });
 
 // ✅ Start Server
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
