@@ -6,7 +6,15 @@ const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 
 const app = express();
-app.use(cors());
+
+// ✅ CORS Configuration (Allow only Vercel frontend)
+const corsOptions = {
+  origin: ["https://zen-glow-spa.vercel.app"], // Allow frontend
+  methods: "GET,POST",
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -16,14 +24,25 @@ const MONGO_URI = process.env.MONGO_URI;
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 
+// ✅ Debugging: Check if .env variables are loaded
+console.log("✅ ENV Variables Loaded:");
+console.log("PORT:", PORT);
+console.log("MONGO_URI:", MONGO_URI ? "Loaded" : "❌ Not Found");
+console.log("EMAIL_USER:", EMAIL_USER ? "Loaded" : "❌ Not Found");
+console.log("EMAIL_PASS:", EMAIL_PASS ? "Loaded" : "❌ Not Found");
+
 if (!MONGO_URI) {
   console.error("❌ MongoDB URI is missing. Check your .env file.");
   process.exit(1);
 }
 
-// ✅ Connect to MongoDB Atlas
+// ✅ Connect to MongoDB Atlas (With Improved Error Handling)
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
+  })
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
@@ -60,7 +79,7 @@ app.post("/api/bookings", async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const selectedDate = new Date(`${date} ${time}`);
+    const selectedDate = new Date(`${date}T${time}`); // ✅ Fix: Use ISO format
     const currentDate = new Date();
 
     if (selectedDate < currentDate) {
@@ -82,7 +101,18 @@ app.post("/api/bookings", async (req, res) => {
     res.status(201).json({ message: "Booking successful!" });
   } catch (error) {
     console.error("❌ Booking error:", error);
-    res.status(500).json({ message: "Booking failed" });
+    res.status(500).json({ message: "Booking failed due to a server error." });
+  }
+});
+
+// ✅ GET Route: Fetch all bookings
+app.get("/api/bookings", async (req, res) => {
+  try {
+    const bookings = await Booking.find();
+    res.status(200).json(bookings);
+  } catch (error) {
+    console.error("❌ Error fetching bookings:", error);
+    res.status(500).json({ message: "Failed to fetch bookings" });
   }
 });
 
@@ -95,6 +125,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// ✅ Function to Send Booking Confirmation Email
 function sendBookingConfirmation(email, name, service, date, time) {
   const mailOptions = {
     from: EMAIL_USER,
