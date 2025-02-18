@@ -31,7 +31,7 @@ const BookingForm = () => {
     }
   
     try {
-      const response = await fetch(import.meta.env.VITE_API_BASE_URL +"/api/bookings", {
+      const response = await fetch("https://zenglow-spa.onrender.com/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
