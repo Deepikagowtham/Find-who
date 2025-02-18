@@ -16,22 +16,22 @@ const Homepage = () => {
     
     <Header />
       {/* HERO SECTION */}
-      <section classNameName="hero">
-        <div classNameName="hero-content">
+      <section className="hero">
+        <div className="hero-content">
           <h1>Relax, Rejuvenate, Refresh</h1>
           <p>Indulge in a luxurious spa experience designed to revitalize your mind, body, and soul. Experience tranquility like never before.</p>
-          <Link to="/booking" classNameName="cta-button">Book an Appointment</Link>
+          <Link to="/booking" className="cta-button">Book an Appointment</Link>
         </div>
 
         {/* HERO IMAGE WITH CAROUSEL */}
-        <div classNameName="hero-image">
+        <div className="hero-image">
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             navigation
             pagination={{ clickable: true }}
             autoplay={{ delay: 3000 }}
             loop={true}
-            classNameName="hero-carousel"
+            className="hero-carousel"
           >
             <SwiperSlide>
               <img src="https://i.pinimg.com/736x/c7/78/65/c77865b4866ded2d1b66089c8e226697.jpg" alt="Spa Image 1" />
@@ -100,7 +100,7 @@ const Homepage = () => {
 
     </div>
     <br/><br/>
-    <Link to="/services" classNameName="ser-button">Explore More</Link>
+    <Link to="/services" className="ser-button">Explore More</Link>
 </section>
 
 
