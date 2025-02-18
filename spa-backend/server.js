@@ -39,8 +39,7 @@ if (!MONGO_URI) {
 // ✅ Connect to MongoDB Atlas (With Improved Error Handling)
 mongoose
   .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+   
     serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
   })
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
